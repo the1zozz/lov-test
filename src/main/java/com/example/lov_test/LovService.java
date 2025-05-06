@@ -2,6 +2,8 @@ package com.example.lov_test;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,20 +12,20 @@ import java.util.List;
 public class LovService {
     @Autowired
     private  LovRepository lovRepository;
-
+    @Cacheable(value = "lov")
     public List<LovDto> getLov(String lovCode) {
         List<ListOfValues> lovList = (lovCode!=null)
                 ? lovRepository.findByLovCode(lovCode)
                 : lovRepository.findAll();
         return lovList.stream().map(this::toDto).toList();
     }
-
+    @CacheEvict(value = "lov", allEntries = true)
     public  LovDto createLov(LovDto lovDto) {
         ListOfValues lov = toEntity(lovDto);
         lov = lovRepository.save(lov);
         return toDto(lov);
     }
-
+    @CacheEvict(value = "lov", allEntries = true)
     public LovDto updateLov(long id ,LovDto lovDto) {
         ListOfValues lov = lovRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("LOV not found"));
@@ -35,6 +37,17 @@ public class LovService {
         return toDto(lov);
 
     }
+    @CacheEvict(value = "lov", allEntries = true)
+    public LovDto deleteLov(long id) {
+        ListOfValues lov = lovRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("LOV not found"));
+        lovRepository.delete(lov);
+        return toDto(lov);
+    }
+    public List<String> getDistinctLovCode() {
+        return lovRepository.findDistinctLovCode();
+    }
+
 
 
     // Mappers
@@ -51,14 +64,5 @@ public class LovService {
     }
 
 
-    public LovDto deleteLov(long id) {
-        ListOfValues lov = lovRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("LOV not found"));
-        lovRepository.delete(lov);
-        return toDto(lov);
-    }
 
-    public List<String> getDistinctLovCode() {
-        return lovRepository.findDistinctLovCode();
-    }
 }
