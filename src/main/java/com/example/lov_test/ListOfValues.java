@@ -17,10 +17,9 @@ public class ListOfValues {
     @Id
     @GeneratedValue(strategy = jakarta.persistence.GenerationType.IDENTITY)
     private Long id;
-
     private String lovCode;
     private String lovValue;
-    private String description;
-
+    private String descriptionEn;
+    private String descriptionAr;
     private Boolean isActive;
 }

@@ -16,19 +16,20 @@ public class LovController {
         this.lovService = lovService;
     }
     @GetMapping
-    public ResponseEntity<List<LovDto>> getLov(@RequestParam(required = false) String lovCode) {
-        return new ResponseEntity<>(lovService.getLov(lovCode) , HttpStatus.OK);
+    public ResponseEntity<List<LovResponse>> getLov(@RequestParam(required = false) String lovCode,
+                                                    @RequestParam(defaultValue = "en") String lang) {
+        return new ResponseEntity<>(lovService.getLov(lovCode , lang) , HttpStatus.OK);
     }
     @PostMapping
-    public ResponseEntity<LovDto> createLov(@RequestBody LovDto lovDto) {
-        return ResponseEntity.ok(lovService.createLov(lovDto));
+    public ResponseEntity<LovRequest> createLov(@RequestBody LovRequest lovRequest) {
+        return ResponseEntity.ok(lovService.createLov(lovRequest));
     }
     @PutMapping("/{id}")
-    public ResponseEntity<LovDto> updateLov(@PathVariable long id , @RequestBody LovDto lovDto) {
-        return ResponseEntity.ok(lovService.updateLov(id ,lovDto));
+    public ResponseEntity<LovRequest> updateLov(@PathVariable long id , @RequestBody LovRequest lovRequest) {
+        return ResponseEntity.ok(lovService.updateLov(id , lovRequest));
     }
     @DeleteMapping("/{id}")
-    public ResponseEntity<LovDto> deleteLov(@PathVariable long id) {
+    public ResponseEntity<String> deleteLov(@PathVariable long id) {
         return ResponseEntity.ok(lovService.deleteLov(id));
     }
     @GetMapping("/groups")

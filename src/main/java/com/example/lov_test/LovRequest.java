@@ -1,19 +1,19 @@
 package com.example.lov_test;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@NoArgsConstructor
+@Getter
+@Setter
 @AllArgsConstructor
-@Data
-@Builder
+@NoArgsConstructor
 
-public class LovDto {
-    private Long id;
+public class LovRequest {
     private String lovCode;
     private String lovValue;
-    private String description;
+    private String descriptionEn;
+    private String descriptionAr;
     private Boolean isActive;
 }
