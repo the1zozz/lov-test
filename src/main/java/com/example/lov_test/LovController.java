@@ -1,5 +1,6 @@
 package com.example.lov_test;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,11 +23,11 @@ public class LovController {
         return new ResponseEntity<>(lovService.getLov(lovCode , lang) , HttpStatus.OK);
     }
     @PostMapping
-    public ResponseEntity<LovRequest> createLov(@RequestBody LovRequest lovRequest) {
+    public ResponseEntity<LovRequest> createLov(@Valid @RequestBody LovRequest lovRequest) {
         return ResponseEntity.ok(lovService.createLov(lovRequest));
     }
     @PutMapping("/{id}")
-    public ResponseEntity<LovRequest> updateLov(@PathVariable long id , @RequestBody LovRequest lovRequest) {
+    public ResponseEntity<LovRequest> updateLov(@PathVariable long id ,@Valid @RequestBody LovRequest lovRequest) {
         return ResponseEntity.ok(lovService.updateLov(id , lovRequest));
     }
     @DeleteMapping("/{id}")
