@@ -14,7 +14,7 @@ import static com.example.lov_test.LovMapper.*;
 @Service
 public class LovService {
 
-    private final LovRepository lovRepository;
+    private  LovRepository lovRepository;
 
     @Cacheable("lov")
     public List<LovResponse> getLov(String lovCode, String lang) {
