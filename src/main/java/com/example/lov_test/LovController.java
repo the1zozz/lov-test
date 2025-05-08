@@ -1,23 +1,24 @@
 package com.example.lov_test;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/lov")
 public class LovController {
 
     private final LovService lovService;
+    private final LovConfig lovConfig;
 
-    public LovController(LovService lovService) {
-        this.lovService = lovService;
-    }
+
     @GetMapping
     public ResponseEntity<List<LovResponse>> getLov(@RequestParam(required = false) String lovCode,
-                                                    @RequestParam(defaultValue = "en") String lang) {
+                                                    @RequestHeader(value = "accept-language" , required = false) String acceptLanguage) {
+        String lang = resolveLanguage(acceptLanguage);
         return new ResponseEntity<>(lovService.getLov(lovCode , lang) , HttpStatus.OK);
     }
     @PostMapping
@@ -37,7 +38,14 @@ public class LovController {
         return ResponseEntity.ok(lovService.getDistinctLovCode());
     }
 
-
-
-
+    // Helper Method
+    public String resolveLanguage(String acceptLanguage) {
+        if (acceptLanguage == null || acceptLanguage.isBlank() ) {
+            return lovConfig.getDefaultLanguage();
+        }
+        String lang = acceptLanguage.toLowerCase();
+        if (acceptLanguage.startsWith("ar"))  return "ar";
+        if (acceptLanguage.startsWith("en"))  return "en";
+        return lovConfig.getDefaultLanguage();
+    }
 }
