@@ -1,9 +1,0 @@
-lov_code,lov_value,description_en,description_ar,is_active
-GENDER,MALE,Male,ذكر,true
-GENDER,FEMALE,Female,أنثى,true
-STATUS,ACTIVE,Active,نشط,true
-STATUS,INACTIVE,Inactive,غير نشط,true
-COUNTRY,sa,Saudi Arabia,السعودية,true
-COUNTRY,eg,Egypt,مصر,true
-COUNTRY,uae,United Arab Emirates,الامارات العربية المتحدة,true
-COUNTRY,usa,United States,أمريكا,true
