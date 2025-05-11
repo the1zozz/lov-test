@@ -13,14 +13,11 @@ import java.util.List;
 public class LovController {
 
     private final LovService lovService;
-    private final LovConfig lovConfig;
 
 
     @GetMapping
-    public ResponseEntity<List<LovResponse>> getLov(@RequestParam(required = false) String lovCode,
-                                                    @RequestHeader(value = "accept-language" , required = false) String acceptLanguage) {
-        String lang = resolveLanguage(acceptLanguage);
-        return new ResponseEntity<>(lovService.getLov(lovCode , lang) , HttpStatus.OK);
+    public ResponseEntity<List<LovResponse>> getLov(@RequestParam(required = false) String lovCode) {
+        return new ResponseEntity<>(lovService.getLov(lovCode) , HttpStatus.OK);
     }
     @PostMapping
     public ResponseEntity<LovRequest> createLov(@Valid @RequestBody LovRequest lovRequest) {
@@ -39,14 +36,4 @@ public class LovController {
         return ResponseEntity.ok(lovService.getDistinctLovCode());
     }
 
-    // Helper Method
-    public String resolveLanguage(String acceptLanguage) {
-        if (acceptLanguage == null || acceptLanguage.isBlank() ) {
-            return lovConfig.getDefaultLanguage();
-        }
-        String lang = acceptLanguage.toLowerCase();
-        if (acceptLanguage.startsWith("ar"))  return "ar";
-        if (acceptLanguage.startsWith("en"))  return "en";
-        return lovConfig.getDefaultLanguage();
-    }
 }

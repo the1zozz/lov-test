@@ -14,6 +14,7 @@ public class LovResponse {
     private Long id;
     private String lovCode;
     private String lovValue;
-    private String description;
+    private String descriptionEn;
+    private String descriptionAr;
     private Boolean isActive;
 }
